@@ -9,6 +9,17 @@ public class Money
     protected int amount;
     protected String currency;
 
+    //12-2
+    @Override
+    public Money reduce(Bank bank, String to) {
+
+        // 12-2 :: 역시 환율은 은행이 아는것. 은행에 물어보도록 하자.
+        int rate = bank.rate(currency,to);
+//        int rate = (currency.equals("CHF") && to.equals("USD")) ? 2: 1;
+        // 정수만 표현.
+        return new Money(amount/rate, to);
+    }
+
     // 11-5 :: 상속받고 있는 Expression 에 reduce를 추가
     @Override
     public Money reduce(String to) {

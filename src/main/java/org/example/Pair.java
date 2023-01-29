@@ -5,12 +5,13 @@ import java.util.Objects;
 public class Pair {
     private String from;
     private String to;
-
+    //12-2 :: 환율표의 키값
     public Pair(String from, String to) {
         this.from = from;
         this.to = to;
     }
 
+    // Pair를 키값으로 쓰려면 비교를 해야지..
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

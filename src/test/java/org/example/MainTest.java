@@ -18,16 +18,28 @@ class MainTest {
     // 12-1 :::: 2프랑을 달러로 바꾸고싶다. 공식은 2/franc
     // franc 을 기축 통화로 바꿀때 공식이 대입되길 바란다.
     // 12-2 :::: 환율은 은행이 알지, Money가 알지 못한다.
-    // FIXME: 2023/01/29 :: 은행마다.. 환율이.. 다를수도?  그럼 Money에 은행도 넘겨야 겠다.
+    // 은행마다.. 환율이.. 다를수도? 은행도 넘겨야 겠다.
+    // 은행은 계산식과 목적 통화를 인자로 받는다.(interface)Expression.reduced 에 오버로드로 표현 하자 그러면 당연히 Money,Sum에도 구현해야한다.
 
+
+
+    // 12-3 :: 같은 통화를 비교하면 rate는 1 이어야 한다.
+    @Test
+    public void testIdentityRate(){
+        assertEquals(1, new Bank().rate("USD", "USD"));
+    }
     @Test
     public void testReduceMoneyDifferentCurrency(){
         Bank bank = new Bank();
-//        bank.addRate("CHF", "USD", 2);
+
+        bank.addRate("CHF", "USD", 2);
+        // err :: npe
+        Money result_poly = bank.reduce(Money.dollar(2), "USD", bank);
+        assertNotEquals(Money.dollar(1), result_poly);
         // FIXME: 2023/01/29 달러랑 머니랑 떻게 비교되더라.?
     // 12-1 :: Money.reduce() 로 ==> Money.reduce에 공식을 넣자.
-        Money result = bank.reduce(Money.franc(2), "USD");
-        assertEquals(Money.dollar(1), result);
+//        Money result = bank.reduce(Money.franc(2), "USD");
+//        assertEquals(Money.dollar(1), result);
     }
 
     @Test

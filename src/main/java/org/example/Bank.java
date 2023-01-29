@@ -5,6 +5,38 @@ import java.util.Hashtable;
 
 public class Bank {
 
+
+
+    // HashTable은 HashMap과 반대로 동기화가 이루어진다. 즉 Thread-safe 하다
+    // 그렇기에 멀티스레드 환경이 아니라면 Hashtable은 HashMap 보다 성능이 떨어진다는 단점
+    // FIXME: 2023/01/29 :: HashMap을 사용해야 하는 이유를 알아와라.
+    private HashMap rates = new HashMap();
+
+    
+    // 12-2 :: 환율표에서 키는 pair<from, to> 로 쓰고, 값은 int 로 저장 하자.
+    void addRate(String from, String to, int rate){
+        rates.put(new Pair(from,to), rate);
+        
+    }
+    
+    //12-2
+    public int rate(String from, String to) {
+        // 12-3 :: 같은 통화를 비교하면 rate는 1 이어야 한다.
+        if (from.equals(to)) return  1;
+
+        // 은행은 어떻게 아는가! 환율표가 필요하다.
+        // 12-2 환율표에서 get pair로 get 해보자.
+        return (int) rates.get(new Pair(from, to));
+    }
+
+    // 다형성.
+    public Money reduce(Expression source, String to, Bank bank) {
+
+        return source.reduce(bank, to);
+
+    }
+
+
     // FIXME(fixed) :: 인터페이스를 인자로 받는것!!! ==> 함수를 받는것!!! 찢엇다..
     public Money reduce(Expression source, String to) {
         // 11 -4 :::: 만약 인자로 들어온 source가 이미 Money 라면 바로 return
@@ -28,6 +60,8 @@ public class Bank {
         // 11 :::: 스텁(목객체 같은 가짜 값)이 필요하다.
 //        return Money.dollar(10);
     }
+
+
 // ========================
 //    private Hashtable rates = new Hashtable();
 //

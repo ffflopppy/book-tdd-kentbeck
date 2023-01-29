@@ -13,6 +13,11 @@ public class Sum
     Money addend;
 
 
+    @Override
+    public Money reduce(Bank bank, String to) {
+        return new Money(augend.amount+ addend.amount , to);
+    }
+
     // 공통 통화(Money)로 바꾸는
     public Money reduce(String to) {
         return new Money(augend.amount+ addend.amount , to);
